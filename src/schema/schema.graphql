@@ -1,0 +1,62 @@
+scalar DateTime
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+type User {
+  id: Int!
+  firstName: String!
+  lastName: String!
+  email: String!
+  role: Role!
+  emailVerified: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type AuthPayload {
+  token: String!
+  message: String!
+}
+
+type SuccessMessage {
+  message: String!
+}
+
+input RegisterUserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  role: Role!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input VerifyEmailInput {
+  token: String!
+}
+
+type Query {
+  # Get user by ID
+  user(id: Int!): User
+}
+
+type Mutation {
+  # Register as a user
+  registerUser(input: RegisterUserInput!): SuccessMessage!
+
+  # Login (separate endpoint for admin login in resolver logic)
+  adminLogin(input: LoginInput!): AuthPayload!
+
+  # Verify email with verification token
+  verifyEmail(input: VerifyEmailInput!): SuccessMessage!
+
+  # Request new verification email
+  # resendVerificationEmail(email: String!): SuccessMessage!
+}
