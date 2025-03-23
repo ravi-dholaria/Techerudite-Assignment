@@ -41,7 +41,7 @@ const Mutation: MutationResolvers = {
       });
 
       // Send verification email
-      const url = `http://localhost:3000/verify-email?token=${token}`;
+      const url = `http://localhost:5173/verify-email?token=${token}`;
       try {
         await sendMail(user.email, url);
       } catch (error) {
@@ -93,6 +93,10 @@ const Mutation: MutationResolvers = {
 
     if (!user) {
       throw new Error('User not found');
+    }
+
+    if (user.emailVerified === false) {
+      throw new Error('Email not verified');
     }
 
     if (user.role !== 'ADMIN') {

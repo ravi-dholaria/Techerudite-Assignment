@@ -27,7 +27,7 @@ void (async () => {
   await server.start();
 
   app.use(
-    '/',
+    '/graphql',
     cors(),
     express.json(),
 
